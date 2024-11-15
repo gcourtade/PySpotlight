@@ -1,4 +1,4 @@
-# Qt Spotlight App
+# PyQt Spotlight App
 
 A simple spotlight effect application that darkens the screen except for a circular area around the mouse cursor. The spotlight follows the mouse movement and automatically hides after a period of inactivity.
 
