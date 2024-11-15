@@ -86,20 +86,38 @@ class TransparentWidget(QWidget):
             painter.setCompositionMode(QPainter.CompositionMode_Clear)
             painter.fillRect(self.rect(), Qt.transparent)
 
-def try_wayland():
-    # Try Wayland first
-    os.environ['QT_QPA_PLATFORM'] = 'wayland'
-    app = QApplication(sys.argv)
+def initialize_qt_platform():
     
-    # If Wayland fails, fall back to xcb
-    if not app.platformName():
-        del app
-        os.environ['QT_QPA_PLATFORM'] = 'xcb'
-        app = QApplication(sys.argv)
+    # List of platforms to try in order of preference
+    platforms = [
+        'wayland',    # Try Wayland first
+        'xcb',        # X11 fallback
+        'windows',    # Windows support
+        'cocoa',      # macOS support
+        'offscreen'   # Last resort fallback
+    ]
     
-    return app
+    last_error = None
+    
+    for platform in platforms:
+        try:
+            if 'QT_QPA_PLATFORM' in os.environ:
+                del os.environ['QT_QPA_PLATFORM']
+            
+            os.environ['QT_QPA_PLATFORM'] = platform
+            
+            app = QApplication(sys.argv)
+            
+            if app.platformName():
+                active_platform = app.platformName().lower()
+                return app
+            else:
+                app = None
 
-
+        except Exception as e:
+            last_error = str(e)
+            continue 
+                
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Spotlight functionality for mouse cursor. Press ESC to exit.')
     parser.add_argument('--spotlight_radius', type=int, default=75, help='Spotlight radius')
@@ -108,6 +126,6 @@ if __name__ == "__main__":
     if len(sys.argv)==1:
         parser.print_help(sys.stderr)
 
-    app = try_wayland()
+    app = initialize_qt_platform()
     window = SpotlightWindow()
     sys.exit(app.exec_())
