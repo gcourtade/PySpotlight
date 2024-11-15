@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QStyleFactory
 from PyQt5.QtCore import Qt, QPoint, QTimer
 from PyQt5.QtGui import QPainter, QColor, QPen, QPainterPath
 import sys
@@ -55,7 +55,7 @@ class SpotlightWindow(QMainWindow):
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
-            exit()
+            sys.exit()
 
     def on_timer_timeout(self):
         self.central_widget.is_visible = False
@@ -86,38 +86,6 @@ class TransparentWidget(QWidget):
             painter.setCompositionMode(QPainter.CompositionMode_Clear)
             painter.fillRect(self.rect(), Qt.transparent)
 
-def initialize_qt_platform():
-    
-    # List of platforms to try in order of preference
-    platforms = [
-        'wayland',    # Try Wayland first
-        'xcb',        # X11 fallback
-        'windows',    # Windows support
-        'cocoa',      # macOS support
-        'offscreen'   # Last resort fallback
-    ]
-    
-    last_error = None
-    
-    for platform in platforms:
-        try:
-            if 'QT_QPA_PLATFORM' in os.environ:
-                del os.environ['QT_QPA_PLATFORM']
-            
-            os.environ['QT_QPA_PLATFORM'] = platform
-            
-            app = QApplication(sys.argv)
-            
-            if app.platformName():
-                active_platform = app.platformName().lower()
-                return app
-            else:
-                app = None
-
-        except Exception as e:
-            last_error = str(e)
-            continue 
-                
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Spotlight functionality for mouse cursor. Press ESC to exit.')
     parser.add_argument('--spotlight_radius', type=int, default=75, help='Spotlight radius')
@@ -126,6 +94,6 @@ if __name__ == "__main__":
     if len(sys.argv)==1:
         parser.print_help(sys.stderr)
 
-    app = initialize_qt_platform()
+    app = QApplication(sys.argv)
     window = SpotlightWindow()
     sys.exit(app.exec_())
