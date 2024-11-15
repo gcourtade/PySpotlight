@@ -1,6 +1,6 @@
-# Qt Spotlight App
+# PyQt Spotlight App
 
-A simple spotlight effect application that darkens the screen except for a circular area around the mouse cursor. The spotlight follows the mouse movement and automatically hides after a period of inactivity.
+A simple spotlight effect application that darkens the screen except for a circular area around the mouse pointer or a smartphone (via KDEConnect/GSConnect). The spotlight follows the mouse movement and automatically hides after a period of inactivity.
 
 ## Installation
 
@@ -18,7 +18,7 @@ python spotlight_app.py
 ```
 Usage:
 - `--spotlight_radius SPOTLIGHT_RADIUS` Spotlight radius
-- `--timeout TIMEOUT` Timeout (ms) for spotlight to vanish after cursor stops moving
+- `--timeout TIMEOUT` Timeout (ms) for spotlight to vanish after pointer stops moving
 - Move mouse to show/move spotlight
 - Spotlight automatically hides after mouse stops moving
 - Press `ESC` to exit
