@@ -1,6 +1,6 @@
 # PyQt Spotlight App
 
-A simple spotlight effect application that darkens the screen except for a circular area around the mouse pointer or a smartphone (via KDEConnect/GSConnect). The spotlight follows the mouse movement and automatically hides after a period of inactivity.
+A simple spotlight effect application that darkens the screen except for a circular area around the mouse pointer or a smartphone (via KDEConnect/GSConnect), inspired by https://github.com/jahnf/Projecteur. The spotlight follows the mouse movement and automatically hides after a period of inactivity.
 
 ## Installation
 
