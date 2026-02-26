@@ -53,9 +53,9 @@ class SpotlightWindow(QMainWindow):
         # Reset the timer
         self.hide_timer.start(self.hide_timeout)
 
-    def keyPressEvent(self, event):
-        if event.key() == Qt.Key_Escape:
-            sys.exit()
+    def mousePressEvent(self, event):
+        if event.button() == Qt.RightButton:
+            QApplication.quit()
 
     def on_timer_timeout(self):
         self.central_widget.is_visible = False
@@ -87,7 +87,7 @@ class TransparentWidget(QWidget):
             painter.fillRect(self.rect(), Qt.transparent)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Spotlight functionality for mouse cursor. Press ESC to exit.')
+    parser = argparse.ArgumentParser(description='Spotlight functionality for mouse cursor. Right Click to exit.')
     parser.add_argument('--spotlight_radius', type=int, default=75, help='Spotlight radius')
     parser.add_argument('--timeout', type=int, default=400, help='Timeout (ms) for spotlight to vanish after cursor stops moving')
     args = parser.parse_args()
