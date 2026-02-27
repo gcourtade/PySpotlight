@@ -56,7 +56,10 @@ class SpotlightWindow(QMainWindow):
     def mousePressEvent(self, event):
         if event.button() == Qt.RightButton:
             QApplication.quit()
-
+    def mouseDoubleClickEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            self.hide()
+            QTimer.singleShot(1000, self.show)
     def on_timer_timeout(self):
         self.central_widget.is_visible = False
         self.central_widget.update()
